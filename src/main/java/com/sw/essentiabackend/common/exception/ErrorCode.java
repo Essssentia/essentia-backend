@@ -48,6 +48,10 @@ public enum ErrorCode {
     INVALID_POST_DATA(HttpStatus.BAD_REQUEST, "유효하지 않은 게시글 데이터입니다."),
     INVALID_COMMENT_DATA(HttpStatus.BAD_REQUEST, "유효하지 않은 댓글 데이터입니다."),
 
+    // profile
+    PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자의 프로필을 찾을 수 없습니다."),
+    DUPLICATE_PROFILE(HttpStatus.BAD_REQUEST, "이미 프로필이 존재합니다."),
+
     // google
     GOOGLE_COMMUNICATION_ERROR(HttpStatus.BAD_REQUEST, "구글 API와의 통신에 실패했습니다."),
     GOOGLE_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "구글 액세스 토큰을 가져오는 데 실패했습니다."),
