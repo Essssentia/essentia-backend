@@ -124,8 +124,4 @@ public class JwtUtil {
             throw new CustomException(ErrorCode.TOKEN_EXPIRATION);
         }
     }
-
-    public String getTokenFromRequest(HttpServletRequest req) {
-        return req.getHeader(AUTHORIZATION_HEADER);
-    }
 }
