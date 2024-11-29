@@ -2,7 +2,7 @@
 
 ![188289246](https://github.com/user-attachments/assets/7a42287a-2665-45df-8660-bf3e2f32c324)
 
-### 🖥️ Eco Grow 🖥️
+### 🖥️ Essssentia 🖥️
 [<img src="https://img.shields.io/badge/프로젝트 기간-2024.11.28~2024.12.10-green?style=flat&logo=&logoColor=white" />]()
 
 </div> 
