@@ -58,6 +58,8 @@
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/SpringSecurity.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/SpringDataJPA.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/JWT.png?raw=true" width="80">
+<img src="https://github.com/user-attachments/assets/4c66691e-6f7d-4c84-aff8-89efeaa6c758" width="80">
+
 </div>
 
 - JDK 17.0.11
