@@ -25,7 +25,16 @@ public enum ResponseText {
     PROFILE_CREATE_SUCCESS("프로필 생성 성공"),
     PROFILE_UPDATE_SUCCESS("프로필 업데이트 성공"),
     PROFILE_DELETE_SUCCESS("프로필 삭제 성공"),
-    PROFILE_FETCH_SUCCESS("프로필 조회 성공");
+    PROFILE_FETCH_SUCCESS("프로필 조회 성공"),
+
+    // review
+    REVIEW_CREATE_SUCCESS("리뷰 작성에 성공했습니다."),
+    REVIEW_UPDATE_SUCCESS("리뷰 수정에 성공했습니다."),
+    REVIEW_RETRIEVE_SUCCESS("리뷰 조회에 성공했습니다."),
+    REVIEW_USER_LIST_SUCCESS("특정 사용자의 리뷰 조회에 성공했습니다."),
+    REVIEW_LIST_SUCCESS("리뷰 목록 조회에 성공했습니다."),
+    REVIEW_DELETE_SUCCESS("리뷰 삭제에 성공했습니다.");
+
 
     private String msg;
 
