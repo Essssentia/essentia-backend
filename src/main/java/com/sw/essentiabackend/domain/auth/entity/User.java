@@ -1,8 +1,12 @@
 package com.sw.essentiabackend.domain.auth.entity;
 
 import com.sw.essentiabackend.common.Timestamped;
+import com.sw.essentiabackend.domain.profile.entity.Profile;
+import com.sw.essentiabackend.domain.review.entity.Review;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +43,12 @@ public class User extends Timestamped {
     // 탈퇴 여부 및 탈퇴 시점 저장
     @Column(nullable = true)
     private LocalDateTime resignedAt;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Profile profile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 
     // 기본 생성자
     public User(String username, String password, String email, UserRoleEnum role) {
