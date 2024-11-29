@@ -44,7 +44,7 @@ public class GoogleService {
     @Value("${google.client.secret}")
     private String clientSecret;
 
-    @Value("${google.redirect_uri}")
+    @Value("${google.redirect.uri}")
     private String redirectURI;
 
     /**
