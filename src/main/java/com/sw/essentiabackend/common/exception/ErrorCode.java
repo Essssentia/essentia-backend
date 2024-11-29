@@ -52,6 +52,10 @@ public enum ErrorCode {
     PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자의 프로필을 찾을 수 없습니다."),
     DUPLICATE_PROFILE(HttpStatus.BAD_REQUEST, "이미 프로필이 존재합니다."),
 
+    // review
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰를 찾을 수 없습니다."),
+    REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "리뷰에 대한 접근 권한이 없습니다."),
+
     // google
     GOOGLE_COMMUNICATION_ERROR(HttpStatus.BAD_REQUEST, "구글 API와의 통신에 실패했습니다."),
     GOOGLE_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "구글 액세스 토큰을 가져오는 데 실패했습니다."),
