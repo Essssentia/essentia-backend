@@ -2,7 +2,9 @@ package com.sw.essentiabackend.domain.review.entity;
 
 import com.sw.essentiabackend.common.Timestamped;
 import com.sw.essentiabackend.domain.auth.entity.User;
+import com.sw.essentiabackend.domain.comment.entity.Comment;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,6 +40,12 @@ public class Review extends Timestamped {
 
     @Column(nullable = true)
     private String reviewImageUrl;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ReviewLike> likes = new ArrayList<>();
 
     public Review(User user, String title, String fragranceType, String content, List<String> tags,
         String reviewImageUrl) {

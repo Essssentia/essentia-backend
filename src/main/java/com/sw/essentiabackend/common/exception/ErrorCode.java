@@ -40,11 +40,8 @@ public enum ErrorCode {
     ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "역할을 찾을 수 없습니다."),
 
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다."),
-    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."),
     POST_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 게시글에 대한 접근 권한이 없습니다."),
     COMMENT_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 댓글에 대한 접근 권한이 없습니다."),
-    DUPLICATE_RECOMMENDATION(HttpStatus.BAD_REQUEST, "이미 추천한 게시글입니다."),
-    CANNOT_RECOMMEND_OWN_POST(HttpStatus.BAD_REQUEST, "자신의 게시글은 추천할 수 없습니다."),
     INVALID_POST_DATA(HttpStatus.BAD_REQUEST, "유효하지 않은 게시글 데이터입니다."),
     INVALID_COMMENT_DATA(HttpStatus.BAD_REQUEST, "유효하지 않은 댓글 데이터입니다."),
 
@@ -55,11 +52,28 @@ public enum ErrorCode {
     // review
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "리뷰를 찾을 수 없습니다."),
     REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "리뷰에 대한 접근 권한이 없습니다."),
+    REVIEW_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "리뷰 게시글에 이미 좋아요를 눌렀습니다."),
+    REVIEW_NOT_LIKED(HttpStatus.BAD_REQUEST, "리뷰 게시글에 좋아요를 누르지 않았습니다."),
 
     // google
     GOOGLE_COMMUNICATION_ERROR(HttpStatus.BAD_REQUEST, "구글 API와의 통신에 실패했습니다."),
     GOOGLE_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "구글 액세스 토큰을 가져오는 데 실패했습니다."),
-    GOOGLE_USER_INFO_ERROR(HttpStatus.BAD_REQUEST, "구글 사용자 정보를 가져오는 데 실패했습니다.");
+    GOOGLE_USER_INFO_ERROR(HttpStatus.BAD_REQUEST, "구글 사용자 정보를 가져오는 데 실패했습니다."),
+
+    // Comment
+    COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "이미 댓글에 좋아요를 눌렀습니다."),
+    COMMENT_NOT_LIKED(HttpStatus.BAD_REQUEST, "댓글 좋아요를 누르지 않았습니다."),
+    COMMENT_PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, "부모 댓글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."),
+    COMMENT_NOT_AUTHORIZED(HttpStatus.FORBIDDEN, "댓글에 대한 권한이 없습니다."),
+    COMMENT_DELETE_SUCCESS(HttpStatus.OK, "댓글 삭제에 성공했습니다."),
+    COMMENT_UPDATE_SUCCESS(HttpStatus.OK, "댓글 수정에 성공했습니다."),
+
+    // Comment
+    NOTFOUND_REVIEW_COMMENT(HttpStatus.BAD_REQUEST, "해당 댓글은 존재하지 않습니다."),
+
+    REPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "대댓글을 찾을 수 없습니다."),
+    REPLY_NOT_AUTHORIZED(HttpStatus.FORBIDDEN, "대댓글에 대한 권한이 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String msg;
