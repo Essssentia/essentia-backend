@@ -9,6 +9,8 @@ import com.sw.essentiabackend.domain.auth.dto.TokenResponseDto;
 import com.sw.essentiabackend.domain.auth.entity.User;
 import com.sw.essentiabackend.domain.auth.entity.UserRoleEnum;
 import com.sw.essentiabackend.domain.auth.repository.UserRepository;
+import com.sw.essentiabackend.domain.profile.entity.Profile;
+import com.sw.essentiabackend.domain.profile.repository.ProfileRepository;
 import com.sw.essentiabackend.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
     private final JwtUtil jwtUtil;
@@ -58,6 +61,14 @@ public class UserService {
         // 사용자 저장
         User user = new User(username, password, email, role);
         userRepository.save(user);
+
+        // 기본 프로필 생성
+        Profile defaultProfile = new Profile(
+            user,
+            "Welcome to your profile!", // 기본 한 줄 소개
+            null // 기본 프로필 이미지 (없음)
+        );
+        profileRepository.save(defaultProfile);
 
         return SignUpResponseDto.builder().user(user).build();
     }

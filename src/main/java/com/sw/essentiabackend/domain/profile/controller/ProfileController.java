@@ -8,11 +8,13 @@ import com.sw.essentiabackend.domain.profile.dto.ProfileResponseDto;
 import com.sw.essentiabackend.domain.profile.service.ProfileService;
 import com.sw.essentiabackend.security.UserDetailsImpl;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,17 +26,20 @@ public class ProfileController {
     /**
      * 프로필 생성 API
      *
-     * @param userDetails 인증된 사용자 정보
-     * @param requestDto 프로필 생성 요청 데이터
+     * @param userDetails  인증된 사용자 정보
+     * @param requestDto   프로필 생성 요청 데이터
+     * @param profileImage 프로필 이미지 파일
      * @return 생성된 프로필 데이터
      */
     @PostMapping
     public ResponseEntity<ApiResponse> createProfile(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @Valid @RequestBody ProfileRequestDto requestDto) {
+        @Valid @RequestPart ProfileRequestDto requestDto,
+        @RequestPart(required = false) MultipartFile profileImage) throws IOException {
 
         User user = userDetails.getUser();
-        ProfileResponseDto responseDto = profileService.createProfile(user, requestDto);
+        ProfileResponseDto responseDto = profileService.createProfile(user, requestDto,
+            profileImage);
 
         ApiResponse response = ApiResponse.builder()
             .msg(ResponseText.PROFILE_CREATE_SUCCESS.getMsg())
@@ -48,17 +53,18 @@ public class ProfileController {
     /**
      * 프로필 수정 API
      *
-     * @param userDetails 인증된 사용자 정보
-     * @param requestDto 프로필 수정 요청 데이터
+     * @param userDetails  인증된 사용자 정보
+     * @param profileImage 프로필 이미지 파일
      * @return 수정된 프로필 데이터
      */
-    @PutMapping
+    @PutMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<ApiResponse> updateProfile(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @Valid @RequestBody ProfileRequestDto requestDto) {
-
+        @RequestPart(value = "bio", required = false) String bio,
+        @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
+    ) throws IOException {
         User user = userDetails.getUser();
-        ProfileResponseDto responseDto = profileService.updateProfile(user, requestDto);
+        ProfileResponseDto responseDto = profileService.updateProfile(user, bio, profileImage);
 
         ApiResponse response = ApiResponse.builder()
             .msg(ResponseText.PROFILE_UPDATE_SUCCESS.getMsg())

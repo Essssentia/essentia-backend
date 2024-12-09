@@ -31,11 +31,7 @@ public class CommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOTFOUND_REVIEW_COMMENT));
         }
 
-        Comment comment = new Comment(user, review, content);
-        if (parent != null) {
-            parent.getReplies().add(comment);
-        }
-
+        Comment comment = new Comment(user, review, content, parent);
         return commentRepository.save(comment);
     }
 
@@ -49,7 +45,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new CustomException(ErrorCode.NOTFOUND_REVIEW_COMMENT));
 
-        if (!comment.getUser().equals(user)) {
+        if (!comment.getUser().getId().equals(user.getId())) {
             throw new CustomException(ErrorCode.COMMENT_NOT_AUTHORIZED);
         }
 
@@ -62,7 +58,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new CustomException(ErrorCode.NOTFOUND_REVIEW_COMMENT));
 
-        if (!comment.getUser().equals(user)) {
+        if (!comment.getUser().getId().equals(user.getId())) {
             throw new CustomException(ErrorCode.COMMENT_NOT_AUTHORIZED);
         }
 

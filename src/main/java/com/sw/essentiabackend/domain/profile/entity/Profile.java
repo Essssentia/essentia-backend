@@ -21,19 +21,19 @@ public class Profile extends Timestamped {
     private User user;
 
     @Column(nullable = true, length = 250)
-    private String intro;
+    private String bio;
 
     @Column(nullable = true)
     private String profileImageUrl;
 
-    public Profile(User user, String intro, String profileImageUrl) {
+    public Profile(User user, String bio, String profileImageUrl) {
         this.user = user;
-        this.intro = intro;
+        this.bio = bio;
         this.profileImageUrl = profileImageUrl;
     }
 
-    public void updateProfile(String intro, String profileImageUrl) {
-        this.intro = intro;
+    public void updateProfile(String bio, String profileImageUrl) {
+        this.bio = bio;
         this.profileImageUrl = profileImageUrl;
     }
 }
