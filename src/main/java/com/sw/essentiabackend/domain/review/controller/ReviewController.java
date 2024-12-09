@@ -6,6 +6,7 @@ import com.sw.essentiabackend.domain.review.dto.ReviewRequestDto;
 import com.sw.essentiabackend.domain.review.dto.ReviewResponseDto;
 import com.sw.essentiabackend.domain.review.service.ReviewService;
 import com.sw.essentiabackend.security.UserDetailsImpl;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class ReviewController {
 
     /**
      * 리뷰 생성 API
-     *
+     *      *
      * @param userDetails 인증된 사용자 정보
      * @param requestDto  리뷰 생성 요청 데이터
      * @return 생성된 리뷰 데이터
@@ -31,11 +33,12 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<ApiResponse> createReview(
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestBody ReviewRequestDto requestDto) {
-
-        ReviewResponseDto responseDto = reviewService.createReview(userDetails.getUser(),
-            requestDto);
-
+        @RequestPart("requestDto") ReviewRequestDto requestDto,
+        @RequestPart(value = "reviewImage", required = false) MultipartFile reviewImage
+    ) throws IOException {
+        ReviewResponseDto responseDto = reviewService.createReview(
+            userDetails.getUser(), requestDto, reviewImage
+        );
         ApiResponse response = ApiResponse.builder()
             .msg(ResponseText.REVIEW_CREATE_SUCCESS.getMsg())
             .statuscode(String.valueOf(HttpStatus.CREATED.value()))
@@ -57,17 +60,15 @@ public class ReviewController {
     public ResponseEntity<ApiResponse> updateReview(
         @PathVariable Long reviewId,
         @AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestBody ReviewRequestDto requestDto) {
-
+        @RequestPart ReviewRequestDto requestDto,
+        @RequestPart(required = false) MultipartFile reviewImage) throws IOException {
         ReviewResponseDto responseDto = reviewService.updateReview(reviewId, userDetails.getUser(),
-            requestDto);
-
+            requestDto, reviewImage);
         ApiResponse response = ApiResponse.builder()
             .msg(ResponseText.REVIEW_UPDATE_SUCCESS.getMsg())
             .statuscode(String.valueOf(HttpStatus.OK.value()))
             .data(responseDto)
             .build();
-
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

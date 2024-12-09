@@ -72,7 +72,9 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/users/signup",
                     "/api/users/login",
-                    "/api/users/google/callback"
+                    "/api/users/google/callback",
+                    "/api/reviews",
+                    "/api/reviews/{reviewId}"
                 ).permitAll()
                 .requestMatchers("/api/users/logout").authenticated()
                 .anyRequest().authenticated() // 그 외 요청은 인증 필요

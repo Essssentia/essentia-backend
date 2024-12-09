@@ -7,12 +7,14 @@ import lombok.Getter;
 public class ProfileResponseDto {
 
     private Long userId;
-    private String intro;
+    private String username;
+    private String bio;
     private String profileImageUrl;
 
     public ProfileResponseDto(Profile profile) {
         this.userId = profile.getUser().getId();
-        this.intro = profile.getIntro();
+        this.username = profile.getUser().getUsername();
+        this.bio = profile.getBio();
         this.profileImageUrl = profile.getProfileImageUrl();
     }
 }

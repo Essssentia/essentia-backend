@@ -11,8 +11,11 @@ import com.sw.essentiabackend.domain.auth.entity.User;
 import com.sw.essentiabackend.domain.auth.entity.UserRoleEnum;
 import com.sw.essentiabackend.domain.auth.repository.UserRepository;
 import com.sw.essentiabackend.domain.auth.service.RefreshTokenService;
+import com.sw.essentiabackend.domain.profile.entity.Profile;
+import com.sw.essentiabackend.domain.profile.repository.ProfileRepository;
 import com.sw.essentiabackend.jwt.JwtUtil;
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,7 @@ public class GoogleService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final RestTemplate restTemplate;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
@@ -56,15 +60,27 @@ public class GoogleService {
      */
     public TokenResponseDto googleLogin(String code) throws JsonProcessingException {
         String accessToken = getToken(code);
-        GoogleUserInfoDto googleUserInfo = getGoogleUserInfo(accessToken); // 액세스 토큰으로 구글 사용자 정보 조회
-        User googleUser = registerGoogleUserIfNeeded(googleUserInfo); // 사용자 등록 필요 시 등록
+        GoogleUserInfoDto googleUserInfo = getGoogleUserInfo(accessToken);
+        User googleUser = registerGoogleUserIfNeeded(googleUserInfo);
 
+        // Step 4: Create a profile for the user if not already created
+        Optional<Profile> existingProfile = profileRepository.findByUserId(googleUser.getId());
+        if (existingProfile.isEmpty()) {
+            Profile profile = new Profile(googleUser, "Welcome to your profile!",
+                null);
+            profileRepository.save(profile);
+        }
+
+        // Step 5: Generate JWT tokens (access and refresh tokens)
         String newAccessToken = jwtUtil.createAccessToken(googleUser.getUsername(),
-            googleUser.getRole().toString()); // JWT 생성
+            googleUser.getRole().toString());
         String newRefreshToken = jwtUtil.createRefreshToken(googleUser.getUsername(),
             googleUser.getRole().toString());
 
+        // Step 6: Save the refresh token
         refreshTokenService.saveRefreshToken(googleUser.getId(), newRefreshToken);
+
+        // Step 7: Return the tokens
         return new TokenResponseDto(googleUser.getId(), newAccessToken, newRefreshToken);
     }
 
